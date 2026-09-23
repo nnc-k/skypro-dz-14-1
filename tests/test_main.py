@@ -2,8 +2,8 @@ import json
 
 from src.main import Category, Product, load_categories_from_json
 
-
 # ---------- Product: init ----------
+
 
 def test_product_init() -> None:
     product = Product("iPhone", "Смартфон", 99999.99, 5)
@@ -15,6 +15,7 @@ def test_product_init() -> None:
 
 
 # ---------- Product: price getter / setter ----------
+
 
 def test_product_price_getter(sample_product: Product) -> None:
     assert sample_product.price == 100.0
@@ -43,6 +44,7 @@ def test_product_price_setter_negative(sample_product: Product, capsys) -> None:
 
 # ---------- Product: classmethod new_product ----------
 
+
 def test_new_product() -> None:
     data = {"name": "Test", "description": "Desc", "price": 50.0, "quantity": 3}
     product = Product.new_product(data)
@@ -55,6 +57,7 @@ def test_new_product() -> None:
 
 
 # ---------- Category: init / getter ----------
+
 
 def test_category_init(sample_product: Product) -> None:
     category = Category("Смартфоны", "Мобильные устройства", [sample_product])
@@ -80,6 +83,7 @@ def test_products_getter_empty() -> None:
 
 # ---------- Category: add_product ----------
 
+
 def test_add_product(sample_category: Category) -> None:
     new_product = Product("New", "Desc", 200.0, 3)
     sample_category.add_product(new_product)
@@ -97,6 +101,7 @@ def test_add_product_increments_counter(sample_category: Category) -> None:
 
 
 # ---------- Class counters ----------
+
 
 def test_category_count() -> None:
     assert Category.category_count == 0
@@ -128,6 +133,7 @@ def test_product_count_in_empty_category() -> None:
 
 
 # ---------- JSON loading ----------
+
 
 def test_load_categories_from_json(tmp_path) -> None:
     data = [
