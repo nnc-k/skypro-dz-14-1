@@ -2,8 +2,8 @@ import json
 
 from src.main import Category, Product, load_categories_from_json
 
-
 # ---------- Product: init ----------
+
 
 def test_product_init() -> None:
     product = Product("iPhone", "Смартфон", 99999.99, 5)
@@ -15,6 +15,7 @@ def test_product_init() -> None:
 
 
 # ---------- Product: price getter / setter ----------
+
 
 def test_product_price_getter(sample_product: Product) -> None:
     assert sample_product.price == 100.0
@@ -43,6 +44,7 @@ def test_product_price_setter_negative(sample_product: Product, capsys) -> None:
 
 # ---------- Product: classmethod new_product ----------
 
+
 def test_new_product() -> None:
     data = {"name": "Test", "description": "Desc", "price": 50.0, "quantity": 3}
     product = Product.new_product(data)
@@ -56,12 +58,14 @@ def test_new_product() -> None:
 
 # ---------- Product: __str__ ----------
 
+
 def test_product_str() -> None:
     product = Product("iPhone", "Смартфон", 99999.99, 5)
     assert str(product) == "iPhone, 99999.99 руб. Остаток: 5 шт."
 
 
 # ---------- Product: __add__ ----------
+
 
 def test_product_add() -> None:
     a = Product("A", "d", 100.0, 10)
@@ -81,6 +85,7 @@ def test_product_add_three_variants() -> None:
 
 
 # ---------- Category: init / getter ----------
+
 
 def test_category_init(sample_product: Product) -> None:
     category = Category("Смартфоны", "Мобильные устройства", [sample_product])
@@ -106,6 +111,7 @@ def test_products_getter_empty() -> None:
 
 # ---------- Category: __str__ ----------
 
+
 def test_category_str() -> None:
     p1 = Product("A", "d", 100.0, 10)
     p2 = Product("B", "d", 200.0, 2)
@@ -120,6 +126,7 @@ def test_category_str_empty() -> None:
 
 
 # ---------- Category: add_product ----------
+
 
 def test_add_product(sample_category: Category) -> None:
     new_product = Product("New", "Desc", 200.0, 3)
@@ -137,6 +144,7 @@ def test_add_product_increments_counter(sample_category: Category) -> None:
 
 
 # ---------- Class counters ----------
+
 
 def test_category_count() -> None:
     assert Category.category_count == 0
@@ -168,6 +176,7 @@ def test_product_count_in_empty_category() -> None:
 
 
 # ---------- JSON loading ----------
+
 
 def test_load_categories_from_json(tmp_path) -> None:
     data = [
