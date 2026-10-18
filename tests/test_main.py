@@ -324,3 +324,37 @@ def test_load_from_real_file() -> None:
     assert "Samsung Galaxy C23 Ultra" in categories[0].products
     assert categories[1].name == "Телевизоры"
     assert "QLED 4K" in categories[1].products
+
+
+# ---------- Product: quantity validation ----------
+
+
+def test_product_zero_quantity_raises() -> None:
+    """Попытка создать Product с quantity=0 должна вызвать ValueError."""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Bad", "Bad", 100.0, 0)
+
+
+def test_product_negative_quantity_raises() -> None:
+    """Попытка создать Product с отрицательным quantity должна вызвать ValueError."""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Bad", "Bad", 100.0, -1)
+
+
+# ---------- Category: middle_price ----------
+
+
+def test_middle_price_with_products() -> None:
+    """Средняя цена товаров в категории."""
+    p1 = Product("A", "d", 100.0, 1)
+    p2 = Product("B", "d", 200.0, 1)
+    p3 = Product("C", "d", 300.0, 1)
+    category = Category("Cat", "Desc", [p1, p2, p3])
+
+    assert category.middle_price() == 200.0
+
+
+def test_middle_price_empty_category() -> None:
+    """Для пустой категории middle_price должен вернуть 0."""
+    category = Category("Empty", "Desc", [])
+    assert category.middle_price() == 0
