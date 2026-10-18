@@ -17,10 +17,7 @@ class InitPrintMixin:
         print(repr(self))
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}"
-            f"('{self.name}', '{self.description}', {self.price}, {self.quantity})"
-        )
+        return f"{self.__class__.__name__}" f"('{self.name}', '{self.description}', {self.price}, {self.quantity})"
 
 
 class BaseProduct(ABC):
@@ -183,12 +180,13 @@ def load_categories_from_json(file_path: str) -> List[Category]:
     return categories
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         product_invalid = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
-    except ValueError as e:
+    except ValueError:
         print(
-            "Возникла ошибка ValueError прерывающая работу программы при попытке добавить продукт с нулевым количеством")
+            "Возникла ошибка ValueError прерывающая работу программы при попытке добавить продукт с нулевым количеством"
+        )
     else:
         print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
 
