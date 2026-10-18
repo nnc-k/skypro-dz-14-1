@@ -10,6 +10,16 @@ from src.main import (
     load_categories_from_json,
 )
 
+# ---------- Mixin ----------
+
+
+def test_mixin_print(capsys) -> None:
+    """Проверка, что миксин печатает информацию о создании объекта."""
+    Product("Test Product", "Test Desc", 100.0, 5)
+    captured = capsys.readouterr()
+    assert "Product('Test Product', 'Test Desc', 100.0, 5)" in captured.out
+
+
 # ---------- Product: init ----------
 
 

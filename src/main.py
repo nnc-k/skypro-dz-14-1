@@ -1,20 +1,23 @@
 import json
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any, Dict, List
 
 
 class InitPrintMixin:
     """Класс-миксин для вывода информации о создании объекта."""
 
+    name: str
+    description: str
+    price: float
+    quantity: int
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         print(repr(self))
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}"
-            f"('{self.name}', '{self.description}', {self.price}, {self.quantity})"
-        )
+        return f"{self.__class__.__name__}" f"('{self.name}', '{self.description}', {self.price}, {self.quantity})"
 
 
 class BaseProduct(ABC):
@@ -140,7 +143,12 @@ class Category:
 
 
 def load_categories_from_json(file_path: str) -> List[Category]:
-    with open(file_path, "r", encoding="utf-8") as file:
+    path = Path(file_path)
+    if not path.exists():
+        # Если путь относительный и не найден, ищем от корня проекта
+        path = Path(__file__).parent.parent / file_path
+
+    with open(path, "r", encoding="utf-8") as file:
         data: List[Dict[str, Any]] = json.load(file)
 
     categories: List[Category] = []
@@ -164,7 +172,7 @@ def load_categories_from_json(file_path: str) -> List[Category]:
     return categories
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
@@ -184,9 +192,11 @@ if __name__ == '__main__':
     print(product3.price)
     print(product3.quantity)
 
-    category1 = Category("Смартфоны",
-                         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-                         [product1, product2, product3])
+    category1 = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        [product1, product2, product3],
+    )
 
     print(category1.name == "Смартфоны")
     print(category1.description)
@@ -194,10 +204,12 @@ if __name__ == '__main__':
     print(category1.category_count)
     print(category1.product_count)
 
-    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    category2 = Category("Телевизоры",
-                         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-                         [product4])
+    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
+    category2 = Category(
+        "Телевизоры",
+        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
+        [product4],
+    )
 
     print(category2.name)
     print(category2.description)
